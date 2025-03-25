@@ -1,28 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import hashlib
 
 app = Flask(__name__)
 
-@app.route('/hash', methods=['POST'])
-def hash_text():
-    data = request.json
-    text = data.get("text", "")
-    hash_result = hashlib.sha256(text.encode()).hexdigest()
-    return jsonify({"hash": hash_result})
-
-if __name__ == '__main__':
-    app.run(debug=True)
-request, jsonify
-import hashlib
-
-app = Flask(__name__)
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/hash', methods=['POST'])
-def hash_text():
-    data = request.json
+def generate_hash():
+    data = request.get_json()
     text = data.get("text", "")
-    hash_result = hashlib.sha256(text.encode()).hexdigest()
-    return jsonify({"hash": hash_result})
+    sha256_hash = hashlib.sha256(text.encode()).hexdigest()
+    return jsonify({"hash": sha256_hash})
 
 if __name__ == '__main__':
     app.run(debug=True)
