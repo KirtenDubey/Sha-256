@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHA-256 Hash Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #282c34;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+            font-weight: bold;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>SHA-256 Hash Generator</h1>
+    <input type="text" id="textInput" placeholder="Enter text here">
+    <button onclick="generateHash()">Generate Hash</button>
+    <p id="output"></p>
+
+    <script>
+        async function generateHash() {
+            let text = document.getElementById("textInput").value;
+            let response = await fetch("/hash", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: text })
+            });
+            let data = await response.json();
+            document.getElementById("output").innerText = "SHA-256: " + data.hash;
+        }
+    </script>
+</body>
+</html>
